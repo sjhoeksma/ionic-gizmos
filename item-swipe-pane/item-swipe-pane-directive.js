@@ -2,7 +2,7 @@
 
 /* Directives */
 
-var module = angular.module('itemSwipePaneDirective', []);
+angular.module('itemSwipePaneDirective', ['ionic'])
 
 /*****************************************************************************/
 /**************************    DIRECTIVE    **********************************/
@@ -33,12 +33,12 @@ var module = angular.module('itemSwipePaneDirective', []);
  *     <item-swipe-pane direction="left"> and <ion-option-button>
  *   is discouraged because both directives swipe from right to left, so they
  *   would overlap, however
- *     <item-swipe-pane direction="right"> and <ion-option-button> 
+ *     <item-swipe-pane direction="right"> and <ion-option-button>
  *   is OK.
  */
-var ITEM_SWIPE_PANE_TPL = '<div class="item-options invisible item-swipe-pane"></div>';
-var DIRECTION_RIGHT_CLASS = 'direction-right';
-module.directive( 'itemSwipePane' , function() {
+.directive( 'itemSwipePane' , function() {
+	var ITEM_SWIPE_PANE_TPL = '<div class="item-options invisible item-swipe-pane"></div>';
+  var DIRECTION_RIGHT_CLASS = 'direction-right';
     return {
         restrict:   'E',
         require:    '^ionItem',
@@ -62,9 +62,9 @@ module.directive( 'itemSwipePane' , function() {
                 if (!itemCtrl.itemSwipeRight){
                     itemCtrl.itemSwipeRight = angular.element(ITEM_SWIPE_PANE_TPL);
                     // If direction is right, move position of item options
-                    // to the left - override inherited right:0; 
+                    // to the left - override inherited right:0;
                     itemCtrl.itemSwipeRight.css({right: 'auto'});
-                    // "direction-right" is container selector. 
+                    // "direction-right" is container selector.
                     itemCtrl.itemSwipeRight.addClass(DIRECTION_RIGHT_CLASS);
                     itemCtrl.$element.append(itemCtrl.itemSwipeRight);
                 }

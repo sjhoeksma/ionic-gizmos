@@ -2,7 +2,7 @@
 
 /* Directives */
 
-var module = angular.module('canSwipeDirective', []);
+angular.module('canSwipeDirective', ['ionic'])
 
 /*****************************************************************************/
 /**************************    DIRECTIVE    **********************************/
@@ -25,7 +25,7 @@ var module = angular.module('canSwipeDirective', []);
  * ### Known issues:
  *
  */
-module.directive('canSwipe', function() {
+.directive('canSwipe', function() {
   return {
     restrict: 'A',
     require:  '^ionItem',
