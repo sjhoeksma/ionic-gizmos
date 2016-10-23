@@ -26,7 +26,7 @@ angular.module('longSwipeDirective', ['ionic'])
  * ### Known issues:
  *
  */
-.directive('longSwipe', function($ionicGesture,$parse,$timeout) {
+.directive('longSwipe', function($ionicGesture,$parse,$timeout,$ionicListDelegate) {
   return {
     restrict: 'A',
 		require:  '^ionItem',
@@ -39,7 +39,8 @@ angular.module('longSwipeDirective', ['ionic'])
 	    var left = itemCtrl.itemSwipeLeft ? itemCtrl.itemSwipeLeft : null;
 			var right = itemCtrl.itemSwipeRight ? itemCtrl.itemSwipeRight: null;
 			var elB=null,elW,elS,olW=max_width;
-	
+			
+				
 			$ionicGesture.on('drag release', function(ev){	
 				//TODO: begin drag, the hidden detecteren
 				var dir = ev.gesture.deltaX<0 ? -1: 1;
@@ -80,13 +81,16 @@ angular.module('longSwipeDirective', ['ionic'])
 							}
 							olW=max_width;
 					 }
-				} else { //Release
-					if (elB){
-			 			elB.style.width=elW; //Restore original Width
+				} else { //Release	
+				  if (elB){
+						elB.style.width=elW; //Restore original Width	
 						if (deltaX>offset) {
 							$timeout(function(){
+							  $ionicListDelegate.closeOptionButtons();
+							},50);
+							$timeout(function(){
 							 angular.element(elB).triggerHandler('click');
-							},10);	
+							},250);//Click after close
 						}
 					}
 					olW=max_width;

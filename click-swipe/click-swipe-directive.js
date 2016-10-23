@@ -30,7 +30,22 @@ angular.module('clickSwipeDirective', ['ionic'])
     link: function(scope, element, attr, itemCtrl) {
 			var left = itemCtrl.itemSwipeLeft ? itemCtrl.itemSwipeLeft : null;
 			var right = itemCtrl.itemSwipeRight ? itemCtrl.itemSwipeRight: null;
-
+     
+			function closeAll(){
+				//Close all items of the parent
+				angular.forEach((element.parent()[0]).querySelectorAll('.item-content'),function(el){
+					angular.forEach(angular.element(el).parent()[0].querySelectorAll('.item-options'),function(btn){
+						 var button = angular.element(btn);
+						 if (!button.hasClass('invisible')){
+							 el.style[ionic.CSS.TRANSFORM] = '';
+							 setTimeout(function() {
+									button.addClass('invisible');
+								}, 250);
+						 }
+					});
+				});
+			}
+			
 		  $ionicGesture.on('tap', function(e){
  				// Grab the content
 				var content = element[0].querySelector('.item-content');
@@ -39,8 +54,13 @@ angular.module('clickSwipeDirective', ['ionic'])
 				var isLeft;
 				if (left && !right) isLeft=true;
 				else if (!left && right) isLeft=false;
-				else isLeft = e.gesture.srcEvent.clientX>=content.clientWidth/2;
-		  	var buttons = isLeft ? left[0] : right[0]; //ToDo better left right selectiong
+				else isLeft = ionic.tap.pointerCoord(e.gesture).x>=content.clientWidth/2;
+				//Check if we allready are opened
+				if ((left && !left.hasClass('invisible')) || (right && !right.hasClass('invisible'))) {
+					closeAll();
+					return;
+				} 
+				var buttons = isLeft ? left[0] : right[0]; //ToDo better left right selectiong
 
 				var buttonsWidth = buttons.offsetWidth;
 				ionic.requestAnimationFrame(function() {
@@ -52,20 +72,7 @@ angular.module('clickSwipeDirective', ['ionic'])
 							buttons.classList.add('invisible');
 						}, 250);
 					} else {
-					  //Close all items of the parent
-						angular.forEach((element.parent()[0]).querySelectorAll('.item-content'),function(el){
-						  angular.forEach(angular.element(el).parent()[0].querySelectorAll('.item-options'),function(btn){
-								 var button = angular.element(btn);
-								 if (!button.hasClass('invisible')){
-									 el.style[ionic.CSS.TRANSFORM] = '';
-									 setTimeout(function() {
-											button.addClass('invisible');
-										}, 250);
-								 }
-								 	
-							});
-						
-						});
+					 closeAll(); 
 						buttons.classList.remove('invisible');
 						content.style[ionic.CSS.TRANSFORM] = 'translate3d(' +
 							(isLeft ? '-' : '' )  + buttonsWidth + 'px, 0, 0)';
