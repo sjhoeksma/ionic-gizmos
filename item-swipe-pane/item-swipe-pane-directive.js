@@ -74,6 +74,7 @@ angular.module('itemSwipePaneDirective', ['ionic'])
             container.append($element);
             // Animation to slowly close opened item.
             itemCtrl.$element.addClass('item-right-editable');
+					  
         } // link
 
     }; // return

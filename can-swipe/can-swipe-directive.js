@@ -30,7 +30,7 @@ angular.module('canSwipeDirective', ['ionic'])
     restrict: 'A',
     require:  '^ionItem',
     link: function(scope, element, attr, itemCtrl) {
-
+			
       if(attr.canSwipe !== null && attr.canSwipe.length > 0 &&
          typeof(!!attr.canSwipe) === "boolean") {
         scope.$watch('!!(' + attr.canSwipe + ')', function(value) {
