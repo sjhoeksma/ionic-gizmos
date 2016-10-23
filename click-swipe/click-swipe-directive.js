@@ -30,10 +30,10 @@ angular.module('clickSwipeDirective', ['ionic'])
     link: function(scope, element, attr, itemCtrl) {
 			var left = itemCtrl.itemSwipeLeft ? itemCtrl.itemSwipeLeft : null;
 			var right = itemCtrl.itemSwipeRight ? itemCtrl.itemSwipeRight: null;
-		
+
 		  $ionicGesture.on('tap', function(e){
  				// Grab the content
-				var content = element[0].querySelector('.item-content');		
+				var content = element[0].querySelector('.item-content');
 	  		if (!left && !right) return;
 				// Grab the buttons and their width
 				var isLeft;
@@ -50,16 +50,30 @@ angular.module('clickSwipeDirective', ['ionic'])
 						content.style[ionic.CSS.TRANSFORM] = '';
 						setTimeout(function() {
 							buttons.classList.add('invisible');
-						}, 250);				
+						}, 250);
 					} else {
+					  //Close all items of the parent
+						angular.forEach((element.parent()[0]).querySelectorAll('.item-content'),function(el){
+						  angular.forEach(angular.element(el).parent()[0].querySelectorAll('.item-options'),function(btn){
+								 var button = angular.element(btn);
+								 if (!button.hasClass('invisible')){
+									 el.style[ionic.CSS.TRANSFORM] = '';
+									 setTimeout(function() {
+											button.addClass('invisible');
+										}, 250);
+								 }
+								 	
+							});
+						
+						});
 						buttons.classList.remove('invisible');
 						content.style[ionic.CSS.TRANSFORM] = 'translate3d(' +
 							(isLeft ? '-' : '' )  + buttonsWidth + 'px, 0, 0)';
 					}
-				});		
+				});
 
 			}, element);
-			
+
     } // link
   }; // return
 }) // can-swipe directive
