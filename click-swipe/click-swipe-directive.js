@@ -33,7 +33,8 @@ angular.module('clickSwipeDirective', ['ionic'])
      
 			function closeAll(){
 				//Close all items of the parent
-				angular.forEach((element.parent()[0]).querySelectorAll('.item-content'),function(el){
+				if (element.parent()[0])
+					angular.forEach((element.parent()[0]).querySelectorAll('.item-content'),function(el){
 					angular.forEach(angular.element(el).parent()[0].querySelectorAll('.item-options'),function(btn){
 						 var button = angular.element(btn);
 						 if (!button.hasClass('invisible')){
