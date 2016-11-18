@@ -32,7 +32,7 @@ angular.module('longSwipeDirective', ['ionic'])
 		require:  '^ionItem',
     link: function(scope, element, attr, itemCtrl) {
 			var offset=100;
-			const max_width=999999;
+			var max_width=999999;
 			if (!isNaN(parseFloat(attr.longSwipe)) && isFinite(attr.longSwipe)) {	
 				offset=Math.max(parseFloat(attr.longSwipe),25);
 			}
